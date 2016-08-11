@@ -1,0 +1,17 @@
+///
+/// Reflex by Pixelarity
+/// pixelarity.com @pixelarity
+/// License: pixelarity.com/license
+///
+
+/* Icon */
+
+	.icon {
+		@include icon;
+		position: relative;
+		border-bottom-width: 0;
+
+		> .label {
+			display: none;
+		}
+	}
