@@ -6,6 +6,9 @@
 	pixelarity.com @pixelarity
 	License: pixelarity.com/license
 */
+	body {
+		display: none;
+	}
 
 /* Reset */
 
