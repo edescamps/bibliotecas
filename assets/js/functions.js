@@ -4,12 +4,49 @@ $(function() {
   	$('#FNcreateNewLibrary').bind('click', createNewLibrary);
   	$('#FNloginLibrary').bind('click', loginLibrary);
   	$('#logoutBtn').bind('click', logout);
-  	if (window.location.pathname == '/android_asset/www/viewBooks.html') {
+
+  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/viewBooks.html') {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
   		});
   	}
+  	if (window.location.pathname == '/android_asset/www/viewBooks.html') {
+  		$('#isbnSearch').bind('click', function() {
+  			var objectName = 'ISBN:' + $('#isbn').val();
+  			$.getScript( 'https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&format=json', function( data, textStatus, jqxhr ) {
+			  console.log( data ); // Data returned
+			  console.log( textStatus ); // Success
+			  console.log( jqxhr.status ); // 200
+			  console.log( "Load was performed." );
+			});
+  			
+  		});
+  	}
+
+  	$('#cameraTest').bind('click', function() {
+		cordova.plugins.barcodeScanner.scan(
+	      function (result) {
+	          alert("We got a barcode\n" +
+	                "Result: " + result.text + "\n" +
+	                "Format: " + result.format + "\n" +
+	                "Cancelled: " + result.cancelled);
+	      }, 
+	      function (error) {
+	          alert("Scanning failed: " + error);
+	      },
+	      {
+	          "preferFrontCamera" : true, // iOS and Android 
+	          "showFlipCameraButton" : true, // iOS and Android 
+	          "prompt" : "Place a barcode inside the scan area", // supported on Android only 
+	          "formats" : "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED 
+	          "orientation" : "landscape" // Android only (portrait|landscape), default unset so it rotates with the device 
+	      }
+	   );
+	});
+
+  	
+  	
   });
 
 
