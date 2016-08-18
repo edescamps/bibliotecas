@@ -4,6 +4,7 @@ $(function() {
   	$('#FNcreateNewLibrary').bind('click', createNewLibrary);
   	$('#FNloginLibrary').bind('click', loginLibrary);
   	$('#logoutBtn').bind('click', logout);
+  	alert(window.location.pathname);
   	if (window.location.pathname == '/data/user/0/com.phonegap.www/files/downloads/app_dir/viewBooks.html') {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
