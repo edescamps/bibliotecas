@@ -1,3 +1,19 @@
+//jQuey function calls
+$(function() {
+	$('body').fadeIn(2500);
+  	$('#FNcreateNewLibrary').bind('click', createNewLibrary);
+  	$('#FNloginLibrary').bind('click', loginLibrary);
+  	$('#logoutBtn').bind('click', logout);
+
+  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/viewBooks.html') {
+  		searchBooks()
+  		$('#filterBookResultsBtn').bind('click', function() {
+  			$('#filterBookResultsDiv').slideToggle('slow');
+  		});
+  	}
+  });
+
+
 // Global Variables
 //Create a new user.
 function createNewUser() {
@@ -32,6 +48,47 @@ function createNewUser() {
 		alert('localStorage not supported.')
 	}
 }
+function createNewLibrary() {
+	if (typeof(Storage) !== "Undefined") {
+		if ( $('#username').val() != '' && $('#libraryName').val() != '' && $('#country').val() != '' && $('#password').val() != '' && $('#confirmPassword').val() != '' ) {
+
+			if ($('#password').val() ==  $('#confirmPassword').val()) {
+				var database = retrieveBD()
+				//Check if user nickname exists.
+				//Define new user as true. Check in for loop if user exists in DB.
+				var newUser = true
+				for (var i = database["libraries"].length - 1; i >= 0; i--) {
+					if ($('#username').val() == database["libraries"][i].username) {
+						newUser = false							
+					}
+				}
+				//Add users to the user DB
+				if (newUser == true) {
+					database["libraries"].push({"username":$('#username').val(),"libraryName":$('#libraryName').val(),"country":$('#country').val(),"password":$('#password').val()})
+					alert('New library created!')
+			  		$( 'body' ).fadeOut( 2500 , function() {
+						window.location.href = 'login.html';
+			 		 });
+				}
+				else {
+					alert('That username has already been taken. Please select a different username.')
+				}
+
+				saveBD(database)
+			} 
+			else {
+				alert('Paswords do not match.')
+			}
+			
+		}
+		else {
+			alert('Not all fields filled.')
+		}
+	}
+	else {
+		alert('localStorage not supported.')
+	}
+}
 function retrieveBD() {
 	//Make sure localStorage is supported.
 	if (typeof(Storage) !== "Undefined") {
@@ -40,13 +97,13 @@ function retrieveBD() {
 			//Parse string into readable object and assign to variable database.
 			var database = JSON.parse(localStorage.database)
 			return database
-			console.log('Database retrieval successful.')
+			alert('Database retrieval successful.')
 		}
 		//If DB is not already stored, generate the structure and assign it to variable database.
 		else {
-			var database = {"users":[],"books":[],"users_books":[],"users_requests":[]};
+			var database = {"libraries":[],"books":[],"users_books":[],"users_requests":[]};
 			return database
-			console.log('Database not found. Creating a new database.')
+			alert('Database not found. Creating a new database.')
 		}
 	}
 	else {
@@ -121,20 +178,21 @@ function searchBooks () {
 		//Make sure user is logged in.
 		if (sessionStorage.session) {
 			//Make sure at least one field is not empty.
-			if (document.getElementById('title').value != '' || document.getElementById('author').value != '' || document.getElementById('genre').value != '' || document.getElementById('language').value != '') {
+			if (true) {
 
 				//Fetch DB.
 				var database = retrieveBD()
-				//Set results innerHTML variable.
-				var html = ''
-				//Loop over BD and append results to innerHTML variable.
-				for (var i = 0; i < database["books"].length; i++) {
-					html += '<li>'
-					html += database["books"][i].title
-					html += '</li>'
+				if (database["books"].length > 0) {
+					//Loop over BD and append results to innerHTML variable.
+					for (var i = 0; i < database["libraries"].length; i++) {
+						//Set inner HTML to results div.
+						$( "#bookResultsTable" ).append( "<tr><td>" + database["libraries"][i].username + "</td><td>" + database["libraries"][i].country + "</td><td>" + database["libraries"][i].libraryName + "</td></tr>" );
+					}
+				} 
+				else {
+					$( "#bookResults" ).html('<p>You have no books in you book list. You can add books <a href="addBook.html">here</a>.</p>');
 				}
-				//Set inner HTML to results div.
-				document.getElementById('results').innerHTML = html
+				
 				//Save DB. Update search density.
 				saveBD(database)
 			}
@@ -160,17 +218,17 @@ function bookIdGenerator () {
 	}
 	return bookId
 }
-function logIn () {
+function loginLibrary () {
 	//Check that storage is available and that all fields are filled. Define userExists.
 	var userExists = false
 	var userIndex
 	if (typeof(Storage) != 'Undefined') {
-		if (document.getElementById('nickname').value != '') {
+		if ($('#username').val() != '' && $('#password').val() != '') {
 			//Get database from localStorage.
 			database = retrieveBD()
 			//Check to see if nickname evists in database.
-			for (var i = database["users"].length - 1; i >= 0; i--) {
-				if (document.getElementById('nickname').value == database["users"][i].nickname) {
+			for (var i = database["libraries"].length - 1; i >= 0; i--) {
+				if ($('#username').val() == database["libraries"][i].username && $('#password').val() == database["libraries"][i].password) {
 					//If user exists, assign necessary variables.
 					userExists = true
 					userIndex = i
@@ -178,8 +236,11 @@ function logIn () {
 			}
 			//Using assigned variables, access user nickname from DB.
 			if (userExists) {
-				sessionStorage.session = database["users"][userIndex].nickname
-				alert(database["users"][userIndex].nickname + ' has been logged in.')
+				sessionStorage.session = database["libraries"][userIndex].username
+				alert(database["libraries"][userIndex].username + ' has been logged in.')
+				$( 'body' ).fadeOut( 2500 , function() {
+					window.location.href = 'addBook.html';
+			 	});
 			}
 			else {
 				alert('User not found. Please register.')
@@ -198,4 +259,20 @@ function requestBook () {
 }
 function tradeBook () {
 	//Create function.
+}
+function logout () {
+	if (typeof(Storage) != 'Undefined') {
+		if (sessionStorage.session) {
+			sessionStorage.clear()
+			$( 'body' ).fadeOut( 2500 , function() {
+				window.location.href = 'login.html';
+			});
+		} 
+		else {
+			alert('Nobody is logged in.')
+		}
+	} 
+	else {
+		alert('localStorage not supported.')
+	}
 }
