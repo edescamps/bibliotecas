@@ -28,8 +28,11 @@
 		<!-- Menu -->
 			<nav id="menu">
 				<h2>Menu</h2>
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+				</ul>
 				<ul class="actions vertical">
-					<li><a href="registerLibrary.html" class="button fit special">Get Started</a></li>
+					<li><a href="registerLibrary.html" class="button fit special">Create Library</a></li>
 					<li><a href="login.html" class="button fit">Log In</a></li>
 				</ul>
 			</nav>
@@ -41,47 +44,32 @@
 					<section id="main" class="wrapper style1">
 						<div class="inner">
 							<header class="major">
-								<h1>Create New Library</h1>
+								<h1>Create Library</h1>
 								<p>Lorem ipsum dolor sit magna consectetur</p>
 							</header>
 							<form>
-								<input type="text" id="nickname" placeholder="Library Name"></input><br>
-								<input type="text" id="gender" placeholder="City"></input><br>
-								<input type="password" id="age" placeholder="Password"></input><br>
-								<input type="password" id="country" placeholder="Confirm Password"></input><br>
+								<label>Username:</label><input type="text" id="username" placeholder="Username"></input><br>
+								<label>Library Name:</label><input type="text" id="libraryName" placeholder="Library Name"></input><br>
+								<label>Country:</label><select id="country">
+									<option value="Costa Rica">Costa Rica</option>
+									<option value="El Salvador">El Salvador</option>
+									<option value="Guatemala">Guatemala</option>
+									<option value="Honduras">Honduras</option>
+									<option value="México">México</option>
+									<option value="Nicaragua">Nicaragua</option>
+									<option value="Panamá">Panamá</option>
+								</select><br>
+								<label>Password:</label><input type="password" id="password" placeholder="Password"></input><br>
+								<label>Confirm Password:</label><input type="password" id="confirmPassword" placeholder="Confirm Password"></input><br>
 							</form>
 							<ul class="actions">
-								<li><a onclick="" class="button icon fa-save">Add Library</a></li>
+								<li><a id="FNcreateNewLibrary" class="button icon fa-save">Create Library</a></li>
 							</ul>
 						</div>
 					</section>
 
 				<!-- Footer -->
 					<section id="footer" class="wrapper split style2">
-						<div class="inner">
-							<section>
-								<header>
-									<h3>Magna lorem ipsum</h3>
-								</header>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos magna fames ac turpis egestas amet non lorem amet.</p>
-								<ul class="icons">
-									<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-									<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</section>
-							<section>
-								<form method="post" action="#">
-									<div class="field half first"><input type="text" name="name" id="name" placeholder="Name" /></div>
-									<div class="field half"><input type="email" name="email" id="email" placeholder="Email" /></div>
-									<div class="field"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" /></li>
-									</ul>
-								</form>
-							</section>
-						</div>
 						<div class="copyright">
 							<p>&copy; Untitled. All rights reserved. Lorem ipsum dolor sit amet nullam.</p>
 						</div>
