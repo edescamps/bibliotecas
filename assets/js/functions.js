@@ -295,7 +295,8 @@ function logout () {
 	}
 }
 function scanISBN () {
-	cordova.plugins.barcodeScanner.scan(
+	var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+	scanner.scan(
       function (result) {
           alert("We got a barcode\n" +
                 "Result: " + result.text + "\n" +
