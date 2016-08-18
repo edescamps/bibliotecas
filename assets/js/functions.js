@@ -4,7 +4,6 @@ $(function() {
   	$('#FNcreateNewLibrary').bind('click', createNewLibrary);
   	$('#FNloginLibrary').bind('click', loginLibrary);
   	$('#logoutBtn').bind('click', logout);
-  	alert(window.location.pathname);
   	if (window.location.pathname == '/android_asset/www/viewBooks.html') {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
