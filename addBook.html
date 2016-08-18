@@ -51,6 +51,7 @@
 								<p>Lorem ipsum dolor sit magna consectetur</p>
 							</header>
 							<form>
+								<label>ISBN:</label><input type="text" id="isbn" placeholder="ISBN" value="0910187053"></input><br>
 								<label>Title:</label><input type="text" id="title" placeholder="Title"></input><br>
 								<label>Author:</label><input type="text" id="author" placeholder="Author"></input><br>
 								<label>Genre:</label><input type="text" id="genre" placeholder="Genre"></input><br>
@@ -62,10 +63,12 @@
 								</select><br>
 							</form>
 							<ul class="actions">
-								<li><a onclick="addNewBook()" class="button icon fa-save">Add Book</a></li>
+								<li><a id="isbnSearch" class="button icon fa-save">Search ISBN</a></li>
 							</ul>
 							<ul id="results"></ul>
 						</div>
+
+						<div id="testBookAPI"></div>
 					</section>
 
 				<!-- Footer -->
@@ -84,6 +87,5 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/functions.js"></script>
-
 	</body>
 </html>
