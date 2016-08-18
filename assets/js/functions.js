@@ -1,35 +1,29 @@
 //jQuey function calls
+var objectName
+
 $(function() {
 	$('body').fadeIn(2500);
   	$('#FNcreateNewLibrary').bind('click', createNewLibrary);
   	$('#FNloginLibrary').bind('click', loginLibrary);
   	$('#logoutBtn').bind('click', logout);
 
-  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/viewBooks.html') {
+  	if (window.location.pathname == '/android_asset/www/addBook.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
   		});
   	}
 
-  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/addBook.html' /* '/android_asset/www/viewBooks.html' */) {
+  	if (window.location.pathname == '/android_asset/www/addBook.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
   		$('#isbnSearch').bind('click', function() {
-  			var objectName = 'ISBN:' + $('#isbn').val();
-  			$.getScript( 'https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&format=json', function( data, textStatus, jqxhr ) {
-			  console.log( data ); // Data returned
-			  console.log( textStatus ); // Success
-			  console.log( jqxhr.status ); // 200
-			  console.log( "Load was performed." );
-			});
-  			
-  		});
+	  			objectName = 'ISBN:' + $('#isbn').val();
+	  			$('#testBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');
+	  			
+	  		});
   	}
-
   	$('#cameraTest').bind('click', scanISBN);
 
-  	
-  	
-  });
+});
 
 
 // Global Variables
@@ -295,23 +289,37 @@ function logout () {
 	}
 }
 function scanISBN () {
-	var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-	scanner.scan(
-      function (result) {
-          alert("We got a barcode\n" +
-                "Result: " + result.text + "\n" +
-                "Format: " + result.format + "\n" +
-                "Cancelled: " + result.cancelled);
-      }, 
-      function (error) {
-          alert("Scanning failed: " + error);
-      },
-      {
-          "preferFrontCamera" : true, // iOS and Android 
-          "showFlipCameraButton" : true, // iOS and Android 
-          "prompt" : "Place a barcode inside the scan area", // supported on Android only 
-          "formats" : "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED 
-          "orientation" : "landscape" // Android only (portrait|landscape), default unset so it rotates with the device 
-      }
-	);
+    console.log('scanning');
+    
+    var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+    scanner.scan( function (result) { 
+
+        alert("We got a barcode\n" + 
+        "Result: " + result.text + "\n" + 
+        "Format: " + result.format + "\n" + 
+        "Cancelled: " + result.cancelled);  
+
+       console.log("Scanner result: \n" +
+            "text: " + result.text + "\n" +
+            "format: " + result.format + "\n" +
+            "cancelled: " + result.cancelled + "\n");
+        document.getElementById("info").innerHTML = result.text;
+        console.log(result);
+        /*
+        if (args.format == "QR_CODE") {
+            window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
+        }
+        */
+
+    }, function (error) { 
+        console.log("Scanning failed: ", error); 
+    } );
+
+}
+//This function is triggered after we retrieve info from Open Library
+function getBookInfo (bookData) {
+	//Browse through the JSON structure and assign values to input fields.
+	$('#title').val(bookData[objectName]["title"])
+	$('#author').val(bookData[objectName]["authors"][0]["name"])
 }
