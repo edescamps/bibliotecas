@@ -2,12 +2,37 @@
 var objectName
 
 $(function() {
+	//General
 	$('body').fadeIn(2500);
+
+	//Actions
   	$('#FNcreateNewLibrary').bind('click', createNewLibrary);
   	$('#FNloginLibrary').bind('click', loginLibrary);
   	$('#logoutBtn').bind('click', logout);
 
-  	if (window.location.pathname == '/android_asset/www/addBook.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
+  	//Page specific
+  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' /* '/android_asset/www/index.html' */) {
+  		
+  		var slogans = [
+  			"Experience is not what happens to a man; it is what a man does with what happens to him.",
+  			"Maybe this world is another planet's hell.",
+  			"After silence, that which comes nearest to expressing the inexpressible is music.",
+  			"There is only one corner of the universe you can be certain of improving, and that's your own self.",
+  			"Facts do not cease to exist because they are ignored.",
+  			"That men do not learn very much from the lessons of history is the most important of all the lessons that history has to teach.",
+  			"Consistency is contrary to nature, contrary to life. The only completely consistent people are dead.",
+  			"There are things known and there are things unknown, and in between are the doors of perception.",
+  			"The secret of genius is to carry the spirit of the child into old age, which means never losing your enthusiasm."
+  			]
+  		
+  		setInterval(function(){
+
+  			$('#slogan').fadeOut(1000, function() {
+			  $('#slogan').html(slogans[Math.floor(Math.random()*9)]).fadeIn(1000);   
+			});
+  		}, 5000);
+  	}
+  	if (window.location.pathname == '/android_asset/www/viewBooks.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
@@ -16,10 +41,9 @@ $(function() {
 
   	if (window.location.pathname == '/android_asset/www/addBook.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
   		$('#isbnSearch').bind('click', function() {
-	  			objectName = 'ISBN:' + $('#isbn').val();
-	  			$('#testBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');
-	  			
-	  		});
+  			objectName = 'ISBN:' + $('#isbn').val();
+  			$('#testBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');	
+	  	});
   	}
   	$('#cameraTest').bind('click', scanISBN);
 
