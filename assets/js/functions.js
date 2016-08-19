@@ -252,7 +252,7 @@ function searchBooks () {
 			}
 		}
 		else {
-			alert('Please log in to search ofr books.')
+			alert('Please log in to search for books.')
 		}
 	}
 	else {
