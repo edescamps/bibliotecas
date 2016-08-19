@@ -8,14 +8,24 @@
 	<head>
 		<title>Untitled</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<style>
+      		html, body {
+        		height: 100%;
+        		margin: 0;
+        		padding: 0;
+      		}
+      		#map {
+        		height: 50%;
+      		}
+    	</style>
 	</head>
 	<body>
-
+	<div id="map"></div>
 		<!-- Header -->
 			<header id="header">
 				<nav>
@@ -36,7 +46,7 @@
 					<li><a href="returnBook.html">Return a Book</a></li>
 				</ul>
 				<ul class="actions vertical">
-					<li><a id="logoutBtn" href="#" class="button fit special">Log Out</a></li>
+					<li><a href="login.html" class="button fit special">Log Out</a></li>
 				</ul>
 			</nav>
 
@@ -63,7 +73,6 @@
 									<option value="german">German</option>
 								</select><br>
 							</div>
-							<span class="image main"><img src="images/pic05.jpg" alt="" /></span>
 							<div id="bookResults" class="table-wrapper">
 								<table>
 									<thead>
@@ -95,6 +104,17 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/functions.js"></script>
-
+			<script>
+		      	var map;
+		      	function initMap() {
+		      		console.log('Calling map.')
+		       		map = new google.maps.Map(document.getElementById('map'), {
+		          		center: {lat: -34.397, lng: 150.644},
+		          		zoom: 8
+		        	});
+		      	}
+		    </script>
+		    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaNVZQ-cPCVJlVOcI327qXpkgneLVR4K0&callback=initMap"
+		    async defer></script>
 	</body>
 </html>
