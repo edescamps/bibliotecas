@@ -14,7 +14,8 @@ $(function() {
 
   	//Index
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' || window.location.pathname == '/android_asset/www/index.html') {
-  		getPosition()
+  		var bookPosition = getPosition()
+  		alert(bookPosition.lat + ' ' + bookPosition.long)
   		var slogans = [
   			"Experience is not what happens to a man; it is what a man does with what happens to him.",
   			"Maybe this world is another planet's hell.",
@@ -361,15 +362,8 @@ function getPosition() {
    	var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
 
    	function onSuccess(position) {
-
-      	alert('Latitude: '          + position.coords.latitude          + '\n' +
-         'Longitude: '         + position.coords.longitude         + '\n' +
-         'Altitude: '          + position.coords.altitude          + '\n' +
-         'Accuracy: '          + position.coords.accuracy          + '\n' +
-         'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-         'Heading: '           + position.coords.heading           + '\n' +
-         'Speed: '             + position.coords.speed             + '\n' +
-         'Timestamp: '         + position.timestamp                + '\n');
+   		var bookPosition = {"lat":position.coords.latitude,"long":position.coords.longitude};
+   		return bookPosition
    	};
 
    	function onError(error) {
