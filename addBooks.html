@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<!--
+	Reflex by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+-->
+<html>
+	<head>
+		<title>Untitled</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<nav>
+					<ul>
+						<li><a href="#menu">Menu</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Menu -->
+			<nav id="menu">
+				<h2>Menu</h2>
+				<ul class="links">
+					<li><a href="register.html">New User</a></li>
+					<li><a href="viewBooks.html">View Book Collection</a></li>
+					<li><a href="addBook.html">Add a Book</a></li>
+					<li><a href="loanBook.html">Loan a Book</a></li>
+					<li><a href="returnBook.html">Return a Book</a></li>
+				</ul>
+				<ul class="actions vertical">
+					<li><a href="login.html" class="button fit special">Log Out</a></li>
+				</ul>
+			</nav>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper style1">
+						<div class="inner">
+							<header class="major">
+								<h1>Add Book</h1>
+								<p>Lorem ipsum dolor sit magna consectetur</p>
+							</header>
+							<form>
+								<label>ISBN:</label><input type="text" id="isbn" placeholder="ISBN"></input><br>
+								<ul class="actions"><li><a id="cameraTest" class="button icon fa-save">Camera</a></li></ul>
+								<label>Title:</label><input type="text" id="title" placeholder="Title"></input><br>
+								<label>Author:</label><input type="text" id="author" placeholder="Author"></input><br>
+								<label>Genre:</label><input type="text" id="genre" placeholder="Genre"></input><br>
+								<label>Language:</label><select name="Language" id="language">
+									<option value="english">English</option>
+									<option value="spanish">Spanish</option>
+									<option value="french">French</option>
+									<option value="german">German</option>
+								</select><br>
+							</form>
+							<ul class="actions">
+								<li><a id="isbnSearch" class="button icon fa-save">Search ISBN</a></li>
+							</ul>
+							<ul id="results"></ul>
+						</div>
+
+						<div id="testBookAPI"></div>
+					</section>
+
+				<!-- Footer -->
+					<section id="footer" class="wrapper split style2">
+						<div class="copyright">
+							<p>&copy; Untitled. All rights reserved. Lorem ipsum dolor sit amet nullam.</p>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script type="text/javascript" src="cordova.js"></script>
+        	<script type="text/javascript" src="barcodescanner.js"></script>
+			<script src="assets/js/functions.js"></script>
+	</body>
+	</body>
+</html>
