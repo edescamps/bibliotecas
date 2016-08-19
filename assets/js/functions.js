@@ -11,6 +11,8 @@ $(function() {
   	$('#logoutBtn').bind('click', logout);
 
   	//Page specific
+
+  	//Index
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' /* '/android_asset/www/index.html' */) {
   		
   		var slogans = [
@@ -32,28 +34,33 @@ $(function() {
 			});
   		}, 5000);
   	}
-  	if (window.location.pathname == '/android_asset/www/viewBooks.html' /* '/home/enrique/Desktop/Bibliotecas/viewBooks.html' */) {
-  		searchBooks()
-  		$('#filterBookResultsBtn').bind('click', function() {
-  			$('#filterBookResultsDiv').slideToggle('slow');
-  		});
-  	}if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/mapView.html' /* '/android_asset/www/mapView.html' */) {
+  	//View Books
+  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/viewBooks.html' /* '/android_asset/www/viewBooks.html' */) {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
   		});
     	$('#changeLoc').bind('click', function(){
-      		map.panTo({lat: Math.random()*90, lng: Math.random()*180});
+    		myLatLng = {lat: Math.random()*90, lng: Math.random()*180};
+    		
+		    marker = new google.maps.Marker({
+		    	position: myLatLng,
+		    	map: map,
+		    	title: 'Hello World!'
+		 	});
+      		map.panTo(myLatLng);
     	});
   	}
 
+  	//Add Book
   	if (window.location.pathname == '/android_asset/www/addBook.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
   		$('#isbnSearch').bind('click', function() {
   			objectName = 'ISBN:' + $('#isbn').val();
   			$('#testBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');	
 	  	});
+	  	$('#cameraTest').bind('click', scanISBN);
   	}
-  	$('#cameraTest').bind('click', scanISBN);
+  	
 
 });
 
@@ -321,8 +328,7 @@ function logout () {
 	}
 }
 function scanISBN () {
-    alert('scanning');
-    
+
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
     scanner.scan( function (result) {
