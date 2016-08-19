@@ -289,7 +289,7 @@ function logout () {
 	}
 }
 function scanISBN () {
-    console.log('scanning');
+    alert('scanning');
     
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
