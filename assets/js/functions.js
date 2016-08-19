@@ -14,7 +14,7 @@ $(function() {
 
   	//Index
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' || window.location.pathname == '/android_asset/www/index.html') {
-  		
+  		getPosition()
   		var slogans = [
   			"Experience is not what happens to a man; it is what a man does with what happens to him.",
   			"Maybe this world is another planet's hell.",
@@ -350,6 +350,31 @@ function scanISBN () {
         "orientation" : "portrait" // Android only (portrait|landscape), default unset so it rotates with the device
     } );
 
+}
+function getPosition() {
+
+   	var options = {
+      	enableHighAccuracy: true,
+      	maximumAge: 3600000
+   	}
+	
+   	var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+
+   	function onSuccess(position) {
+
+      	alert('Latitude: '          + position.coords.latitude          + '\n' +
+         'Longitude: '         + position.coords.longitude         + '\n' +
+         'Altitude: '          + position.coords.altitude          + '\n' +
+         'Accuracy: '          + position.coords.accuracy          + '\n' +
+         'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+         'Heading: '           + position.coords.heading           + '\n' +
+         'Speed: '             + position.coords.speed             + '\n' +
+         'Timestamp: '         + position.timestamp                + '\n');
+   	};
+
+   	function onError(error) {
+      	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+   	}
 }
 //This function is triggered after we retrieve info from Open Library
 function getBookInfo (bookData) {
