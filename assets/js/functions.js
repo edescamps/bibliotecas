@@ -32,11 +32,19 @@ $(function() {
 			});
   		}, 5000);
   	}
-  	if (window.location.pathname == '/android_asset/www/viewBooks.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
+  	if (window.location.pathname == '/android_asset/www/viewBooks.html' /* '/home/enrique/Desktop/Bibliotecas/viewBooks.html' */) {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
   		});
+  	}if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/mapView.html' /* '/android_asset/www/mapView.html' */) {
+  		searchBooks()
+  		$('#filterBookResultsBtn').bind('click', function() {
+  			$('#filterBookResultsDiv').slideToggle('slow');
+  		});
+    	$('#changeLoc').bind('click', function(){
+      		map.panTo({lat: Math.random()*90, lng: Math.random()*180});
+    	});
   	}
 
   	if (window.location.pathname == '/android_asset/www/addBook.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
@@ -218,11 +226,11 @@ function searchBooks () {
 
 				//Fetch DB.
 				var database = retrieveBD()
-				if (database["books"].length > 0) {
+				if (database["libraries"].length > 0) {
 					//Loop over BD and append results to innerHTML variable.
 					for (var i = 0; i < database["libraries"].length; i++) {
 						//Set inner HTML to results div.
-						$( "#bookResultsTable" ).append( "<tr><td>" + database["libraries"][i].username + "</td><td>" + database["libraries"][i].country + "</td><td>" + database["libraries"][i].libraryName + "</td></tr>" );
+						$( "#bookResultsTable" ).append( "<tr><td>" + database["libraries"][i].username + "</td><td>" + database["libraries"][i].country + "</td><td id='changeLoc' class='icon fa-globe'></td></tr>" );
 					}
 				} 
 				else {
@@ -313,7 +321,8 @@ function logout () {
 	}
 }
 function scanISBN () {
-
+    alert('scanning');
+    
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
     scanner.scan( function (result) {
