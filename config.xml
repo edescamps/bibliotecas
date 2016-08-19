@@ -14,7 +14,7 @@
     </author>
 
     <gap:plugin name="com.phonegap.plugins.barcodescanner"/>
-    <plugin name="com.phonegap.plugins.geolocation"/>
+    <plugin spec="https://github.com/apache/cordova-plugin-geolocation.git" source="git" />
 
     <icon src="logo.png" />
     <preference name="orientation"      value="default" />
