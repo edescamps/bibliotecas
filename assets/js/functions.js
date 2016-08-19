@@ -318,4 +318,5 @@ function getBookInfo (bookData) {
 	//Browse through the JSON structure and assign values to input fields.
 	$('#title').val(bookData[objectName]["title"])
 	$('#author').val(bookData[objectName]["authors"][0]["name"])
+	$('#genre').val(bookData[objectName]["subjects"][0]["name"])
 }
