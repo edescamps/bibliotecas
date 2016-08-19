@@ -370,6 +370,7 @@ function getPosition() {
    	function onError(error) {
       	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
    	}
+   	return watchID
 }
 //This function is triggered after we retrieve info from Open Library
 function getBookInfo (bookData) {
