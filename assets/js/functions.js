@@ -13,7 +13,7 @@ $(function() {
   	//Page specific
 
   	//Index
-  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' /* '/android_asset/www/index.html' */) {
+  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' || window.location.pathname == '/android_asset/www/index.html') {
   		
   		var slogans = [
   			"Experience is not what happens to a man; it is what a man does with what happens to him.",
@@ -35,7 +35,7 @@ $(function() {
   		}, 5000);
   	}
   	//View Books
-  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/viewBooks.html' /* '/android_asset/www/viewBooks.html' */) {
+  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/viewBooks.html' || window.location.pathname == '/android_asset/www/viewBooks.html' ) {
   		searchBooks()
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
@@ -53,7 +53,7 @@ $(function() {
   	}
 
   	//Add Book
-  	if (window.location.pathname == '/android_asset/www/addBook.html' /* '/home/enrique/Desktop/Bibliotecas/addBook.html' */) {
+  	if (window.location.pathname == '/android_asset/www/addBook.html' || window.location.pathname == '/android_asset/www/addBook.html') {
   		$('#isbnSearch').bind('click', function() {
   			objectName = 'ISBN:' + $('#isbn').val();
   			$('#testBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');	
