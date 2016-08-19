@@ -14,8 +14,7 @@ $(function() {
 
   	//Index
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' || window.location.pathname == '/android_asset/www/index.html') {
-  		var bookCoordinates = getPosition()
-  		alert(bookCoordinates)
+  		getPosition()
  
   		var slogans = [
   			"Experience is not what happens to a man; it is what a man does with what happens to him.",
@@ -364,13 +363,13 @@ function getPosition() {
 
    	function onSuccess(position) {
    		var bookPosition = {"lat":position.coords.latitude,"long":position.coords.longitude};
-   		return bookPosition
+   		alert('latitude:' + bookPosition.lat)
    	};
 
    	function onError(error) {
       	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
    	}
-   	return watchID
+   	alert('watchID:' + watchID)
 }
 //This function is triggered after we retrieve info from Open Library
 function getBookInfo (bookData) {
