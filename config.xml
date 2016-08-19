@@ -14,9 +14,9 @@
     </author>
 
     <gap:plugin name="com.phonegap.plugins.barcodescanner"/>
+    <plugin name="com.phonegap.plugins.geolocation"/>
 
     <icon src="logo.png" />
-    <preference name="phonegap-version" value="3.6.3" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
