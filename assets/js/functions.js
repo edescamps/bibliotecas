@@ -16,7 +16,6 @@ $(function() {
   	//Index
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' || window.location.pathname == '/android_asset/www/index.html') {
   		getPosition()
-  		alert(bookPosition + ' ' + bookPosition.lat)
  
   		var slogans = [
   			"Experience is not what happens to a man; it is what a man does with what happens to him.",
@@ -365,6 +364,7 @@ function getPosition() {
 
    	function onSuccess(position) {
    		bookPosition = {"lat":position.coords.latitude,"long":position.coords.longitude};
+   		alert(bookPosition)
    	};
 
    	function onError(error) {
