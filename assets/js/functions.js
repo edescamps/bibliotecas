@@ -40,7 +40,7 @@ $(function() {
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
   		});
-    	$('#changeLoc').bind('click', function(){
+    	$('.changeLoc').bind('click', function(){
     		myLatLng = {lat: Math.random()*90, lng: Math.random()*180};
     		
 		    marker = new google.maps.Marker({
@@ -237,7 +237,7 @@ function searchBooks () {
 					//Loop over BD and append results to innerHTML variable.
 					for (var i = 0; i < database["libraries"].length; i++) {
 						//Set inner HTML to results div.
-						$( "#bookResultsTable" ).append( "<tr><td>" + database["libraries"][i].username + "</td><td>" + database["libraries"][i].country + "</td><td id='changeLoc' class='icon fa-globe'></td></tr>" );
+						$( "#bookResultsTable" ).append( "<tr><td>" + database["libraries"][i].username + "</td><td>" + database["libraries"][i].country + "</td><td class='changeLoc icon fa-globe'></td></tr>" );
 					}
 				} 
 				else {
