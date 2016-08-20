@@ -1,6 +1,5 @@
 //jQuey function calls
 var objectName
-var bookPosition
 
 $(function() {
 	//General
@@ -15,7 +14,9 @@ $(function() {
 
   	//Index
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' || window.location.pathname == '/android_asset/www/index.html') {
-  		getPosition()
+  		//getPosition()
+  		var bookPosition = navigator.geolocation.getCurrentPosition();
+ 		alert(bookPosition)
 
   		var slogans = [
   			"Experience is not what happens to a man; it is what a man does with what happens to him.",
@@ -353,13 +354,6 @@ function scanISBN () {
     } );
 
 }
-function onSuccess(position) {
-	var bookPosition = {"lat":position.coords.latitude,"long":position.coords.longitude};
-	return bookPosition;
-}
-function onError(error) {
-  	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
-}
 function getPosition() {
 
    	var options = {
@@ -368,7 +362,14 @@ function getPosition() {
    	}
 	
    	var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
-	alert(watchID)	
+
+   	function onSuccess(position) {
+   		var bookPosition = {"lat":position.coords.latitude,"long":position.coords.longitude};
+   	};
+
+   	function onError(error) {
+      	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+   	}
 }
 //This function is triggered after we retrieve info from Open Library
 function getBookInfo (bookData) {
