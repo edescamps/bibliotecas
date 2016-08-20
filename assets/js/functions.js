@@ -14,7 +14,6 @@ $(function() {
 
   	//Index
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/index.html' || window.location.pathname == '/android_asset/www/index.html') {
-  		getPosition()
   		
   		var slogans = [
   			"Experience is not what happens to a man; it is what a man does with what happens to him.",
@@ -54,12 +53,13 @@ $(function() {
   	}
 
   	//Add Book
-  	if (window.location.pathname == '/android_asset/www/addBook.html' || window.location.pathname == '/android_asset/www/addBook.html') {
+  	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/addBook.html' || window.location.pathname == '/android_asset/www/addBook.html') {
   		$('#isbnSearch').bind('click', function() {
   			objectName = 'ISBN:' + $('#isbn').val();
-  			$('#testBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');	
+  			$('#srcBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');	
 	  	});
 	  	$('#cameraTest').bind('click', scanISBN);
+	  	$('#addBook').bind('click', addNewBook);
   	}
   	
 
@@ -67,6 +67,51 @@ $(function() {
 
 
 // Global Variables
+
+/********************************************************************************************/
+/********************************************************************************************/
+/************************************* DATABASE STUFF ***************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+function retrieveBD() {
+	//Make sure localStorage is supported.
+	if (typeof(Storage) !== "Undefined") {
+		//Check to see if database is already stored.
+		if (localStorage.database) {
+			//Parse string into readable object and assign to variable database.
+			var database = JSON.parse(localStorage.database)
+			return database
+			alert('Database retrieval successful.')
+		}
+		//If DB is not already stored, generate the structure and assign it to variable database.
+		else {
+			var database = {"libraries":[],"books":[],"users_books":[],"users_requests":[]};
+			return database
+			alert('Database not found. Creating a new database.')
+		}
+	}
+	else {
+		alert('localStorage not supported.')
+	}
+}
+function saveBD(databaseObject) {
+	//Convert DB from object to string.
+	var databaseString = JSON.stringify(databaseObject)
+	//Make sure localStorage is supported.
+	if (typeof(Storage) !== "Undefined") {
+			//Save database from JSON string.
+			localStorage.database = databaseString
+			console.log('Database save successful.')
+	}
+	else {
+		alert('localStorage not supported.')
+	}
+}
+/********************************************************************************************/
+/********************************************************************************************/
+/*************************************   USER STUFF   ***************************************/
+/********************************************************************************************/
+/********************************************************************************************/
 //Create a new user.
 function createNewUser() {
 	if (typeof(Storage) !== "Undefined") {
@@ -141,39 +186,72 @@ function createNewLibrary() {
 		alert('localStorage not supported.')
 	}
 }
-function retrieveBD() {
-	//Make sure localStorage is supported.
-	if (typeof(Storage) !== "Undefined") {
-		//Check to see if database is already stored.
-		if (localStorage.database) {
-			//Parse string into readable object and assign to variable database.
-			var database = JSON.parse(localStorage.database)
-			return database
-			alert('Database retrieval successful.')
+function loginLibrary () {
+	//Check that storage is available and that all fields are filled. Define userExists.
+	var userExists = false
+	var userIndex
+	if (typeof(Storage) != 'Undefined') {
+		if ($('#username').val() != '' && $('#password').val() != '') {
+			//Get database from localStorage.
+			database = retrieveBD()
+			//Check to see if nickname evists in database.
+			for (var i = database["libraries"].length - 1; i >= 0; i--) {
+				if ($('#username').val() == database["libraries"][i].username && $('#password').val() == database["libraries"][i].password) {
+					//If user exists, assign necessary variables.
+					userExists = true
+					userIndex = i
+				}
+			}
+			//Using assigned variables, access user nickname from DB.
+			if (userExists) {
+				sessionStorage.session = database["libraries"][userIndex].username
+				alert(database["libraries"][userIndex].username + ' has been logged in.')
+				$( 'body' ).fadeOut( 2500 , function() {
+					window.location.href = 'addBook.html';
+			 	});
+			}
+			else {
+				alert('User not found. Please register.')
+			}
 		}
-		//If DB is not already stored, generate the structure and assign it to variable database.
 		else {
-			var database = {"libraries":[],"books":[],"users_books":[],"users_requests":[]};
-			return database
-			alert('Database not found. Creating a new database.')
+			alert('Please fill out all fields.')
 		}
 	}
 	else {
 		alert('localStorage not supported.')
 	}
 }
-function saveBD(databaseObject) {
-	//Convert DB from object to string.
-	var databaseString = JSON.stringify(databaseObject)
-	//Make sure localStorage is supported.
-	if (typeof(Storage) !== "Undefined") {
-			//Save database from JSON string.
-			localStorage.database = databaseString
-			console.log('Database save successful.')
-	}
+function logout () {
+	if (typeof(Storage) != 'Undefined') {
+		if (sessionStorage.session) {
+			sessionStorage.clear()
+			$( 'body' ).fadeOut( 2500 , function() {
+				window.location.href = 'login.html';
+			});
+		} 
+		else {
+			alert('Nobody is logged in.')
+		}
+	} 
 	else {
 		alert('localStorage not supported.')
 	}
+}
+/********************************************************************************************/
+/********************************************************************************************/
+/*************************************   BOOK STUFF   ***************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+function bookIdGenerator () {
+	//Define character set to choose from.
+	var characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	var bookId = ''
+	//Assign random characters to bookId string.
+	for (var i = 5; i >= 0; i--) {
+		bookId += characters[Math.floor(Math.random()*36)]
+	}
+	return bookId
 }
 function addNewBook () {
 	//Make sure localStorage is supported.
@@ -181,7 +259,7 @@ function addNewBook () {
 		//Make sure a user is logged in.
 		if (sessionStorage.session) {
 			//Make sure all form fields are filled.
-			if (document.getElementById('title').value != '' && document.getElementById('author').value != '' && document.getElementById('genre').value != '' && document.getElementById('language').value != '') {
+			if ($('#title').val() != '' && $('#isbn').val() != '' && $('#author').val() != '' && $('#genre').val() != '' && $('#language').val() != '') {
 				
 				//Retrieve DB
 				var database = retrieveBD()
@@ -190,13 +268,11 @@ function addNewBook () {
 				
 				//Check to see if book table is empty. If it is, add first book.
 				if (database["books"].length == 0) {
-					alert("First book.")
-					database["books"].push({"id":bookId,"title":document.getElementById('title').value,"author":document.getElementById('author').value,"genre":document.getElementById('genre').value,"language":document.getElementById('language').value})
-					database["users_books"].push({"bookId":bookId,"userId":sessionStorage.session,"holderId":sessionStorage.session})
+					database["books"].push({"id":bookId,"title":$('#title').val(),"isbn":$('#isbn').val(),"author":$('#author').val(),"genre":$('#genre').val(),"language":$('#language').val()})
+					database["users_books"].push({"bookId":bookId,"userId":sessionStorage.session,"holderId":sessionStorage.session,"bookLat":String(Math.random()*90),"bookLong":String(Math.random()*180)})
 				}
 				//If book table is not empty, add book, but make sure bookId does not repeat first by looping over all items in book table.
 				else {
-					alert("Not first book.")
 					for (var i = 0; i < database["books"].length; i++) {
 						//If bookId exists, generate a new bookId and reset for look counter.
 						if (database["books"][i].id == bookId) {
@@ -236,9 +312,9 @@ function searchBooks () {
 				var database = retrieveBD()
 				if (database["libraries"].length > 0) {
 					//Loop over BD and append results to innerHTML variable.
-					for (var i = 0; i < database["libraries"].length; i++) {
+					for (var i = 0; i < database["books"].length; i++) {
 						//Set inner HTML to results div.
-						$( "#bookResultsTable" ).append( "<tr><td>" + database["libraries"][i].username + "</td><td>" + database["libraries"][i].country + "</td><td class='changeLoc icon fa-globe'></td></tr>" );
+						$( "#bookResultsTable" ).append( "<tr><td>" + database["books"][i].title + "</td><td>" + database["books"][i].author + "</td><td class='changeLoc icon fa-globe'></td></tr>" );
 					}
 				} 
 				else {
@@ -260,73 +336,18 @@ function searchBooks () {
 		alert('localStorage not supported.')
 	}
 }
-function bookIdGenerator () {
-	//Define character set to choose from.
-	var characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	var bookId = ''
-	//Assign random characters to bookId string.
-	for (var i = 5; i >= 0; i--) {
-		bookId += characters[Math.floor(Math.random()*36)]
-	}
-	return bookId
-}
-function loginLibrary () {
-	//Check that storage is available and that all fields are filled. Define userExists.
-	var userExists = false
-	var userIndex
-	if (typeof(Storage) != 'Undefined') {
-		if ($('#username').val() != '' && $('#password').val() != '') {
-			//Get database from localStorage.
-			database = retrieveBD()
-			//Check to see if nickname evists in database.
-			for (var i = database["libraries"].length - 1; i >= 0; i--) {
-				if ($('#username').val() == database["libraries"][i].username && $('#password').val() == database["libraries"][i].password) {
-					//If user exists, assign necessary variables.
-					userExists = true
-					userIndex = i
-				}
-			}
-			//Using assigned variables, access user nickname from DB.
-			if (userExists) {
-				sessionStorage.session = database["libraries"][userIndex].username
-				alert(database["libraries"][userIndex].username + ' has been logged in.')
-				$( 'body' ).fadeOut( 2500 , function() {
-					window.location.href = 'addBook.html';
-			 	});
-			}
-			else {
-				alert('User not found. Please register.')
-			}
-		}
-		else {
-			alert('Please fill out all fields.')
-		}
-	}
-	else {
-		alert('localStorage not supported.')
-	}
-}
 function requestBook () {
 	//Create function.
 }
 function tradeBook () {
 	//Create function.
 }
-function logout () {
-	if (typeof(Storage) != 'Undefined') {
-		if (sessionStorage.session) {
-			sessionStorage.clear()
-			$( 'body' ).fadeOut( 2500 , function() {
-				window.location.href = 'login.html';
-			});
-		} 
-		else {
-			alert('Nobody is logged in.')
-		}
-	} 
-	else {
-		alert('localStorage not supported.')
-	}
+//This function is triggered after we retrieve info from Open Library
+function getBookInfo (bookData) {
+	//Browse through the JSON structure and assign values to input fields.
+	$('#title').val(bookData[objectName]["title"])
+	$('#author').val(bookData[objectName]["authors"][0]["name"])
+	$('#genre').val(bookData[objectName]["subjects"][0]["name"])
 }
 function scanISBN () {
 
@@ -337,7 +358,7 @@ function scanISBN () {
     	$('#isbn').val(result.text)
 
     	objectName = 'ISBN:' + $('#isbn').val();
-	  	$('#testBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');
+	  	$('#srcBookAPI').html( '<script src="https://openlibrary.org/api/books?bibkeys=ISBN:' + $('#isbn').val() + '&jscmd=data&callback=getBookInfo"></script>');
 
     }, function (error) {
 
@@ -369,11 +390,4 @@ function getPosition() {
    	function onError(error) {
       	alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
    	}
-}
-//This function is triggered after we retrieve info from Open Library
-function getBookInfo (bookData) {
-	//Browse through the JSON structure and assign values to input fields.
-	$('#title').val(bookData[objectName]["title"])
-	$('#author').val(bookData[objectName]["authors"][0]["name"])
-	$('#genre').val(bookData[objectName]["subjects"][0]["name"])
 }
