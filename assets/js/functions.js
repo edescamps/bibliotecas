@@ -281,8 +281,8 @@ function addNewBook () {
 							i = 0
 						}
 					}
-					database["books"].push({"id":bookId,"title":document.getElementById('title').value,"author":document.getElementById('author').value,"genre":document.getElementById('genre').value,"language":document.getElementById('language').value})
-					database["users_books"].push({"bookId":bookId,"userId":sessionStorage.session,"holderId":sessionStorage.session})
+					database["books"].push({"id":bookId,"title":$('#title').val(),"isbn":$('#isbn').val(),"author":$('#author').val(),"genre":$('#genre').val(),"language":$('#language').val()})
+					database["users_books"].push({"bookId":bookId,"userId":sessionStorage.session,"holderId":sessionStorage.session,"bookLat":String(Math.random()*90),"bookLong":String(Math.random()*180)})
 				}
 				//Save DB
 				saveBD(database)
@@ -310,7 +310,7 @@ function searchBooks () {
 
 				//Fetch DB.
 				var database = retrieveBD()
-				if (database["libraries"].length > 0) {
+				if (database["books"].length > 0) {
 					//Loop over BD and append results to innerHTML variable.
 					for (var i = 0; i < database["books"].length; i++) {
 						//Set inner HTML to results div.
