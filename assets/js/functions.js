@@ -37,7 +37,10 @@ $(function() {
   	//View Books
   	if (window.location.pathname == '/home/enrique/Desktop/Bibliotecas/viewBooks.html' || window.location.pathname == '/android_asset/www/viewBooks.html' ) {
   		searchBooks()
-  		$('#locateMe').bind('click', getPosition);
+  		//$('#locateMe').bind('click', getPosition);
+  		setInterval(function(){
+  			getPosition()
+  		}, 5000);
   		$('#filterBookResultsBtn').bind('click', function() {
   			$('#filterBookResultsDiv').slideToggle('slow');
   		});
@@ -385,6 +388,11 @@ function getPosition() {
 
    	function onSuccess(position) {
    		var bookPosition = {"lat":position.coords.latitude,"long":position.coords.longitude};
+   		marker = new google.maps.Marker({
+		    	position: {'lat':position.coords.latitude,'lng':position.coords.longitude},
+		    	map: map,
+		    	title: 'Hello World!'
+		});
    		map.panTo({'lat':position.coords.latitude,'lng':position.coords.longitude});
    	};
 
